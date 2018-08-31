@@ -29,7 +29,12 @@ export class SigninComponent implements OnInit {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         console.log(socialPlatform+" sign in data : " , userData);
-        var user = this.parseGoogleSocialResponse(userData);
+        var user = null;
+        if(socialPlatformProvider == "facebook")
+        user = this.parseFaceBookSocialResponse(userData);
+        else if(socialPlatformProvider == "google")
+        user = this.parseGoogleSocialResponse(userData);
+        
         this.loginService.requestLoginIn(user).subscribe(res => {
           console.log(res);
         }
@@ -46,7 +51,18 @@ export class SigninComponent implements OnInit {
     user.$name = userData.name;
     user.$email =userData.email;
     user.$profileImgPath = userData.image;
-    user.$provider = 'google';
+    user.$provider = userData.provider;
+    user.$userName = userData.email;
+
+    return user;
+  
+  }
+  parseFaceBookSocialResponse(userData){
+    let  user: User = new User();
+    user.$name = userData.name;
+    user.$email =userData.email;
+    user.$profileImgPath = userData.image;
+    user.$provider = userData.provider;
     user.$userName = userData.email;
 
     return user;

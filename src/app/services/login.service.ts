@@ -6,7 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LoginService {
-  url = '192.168.1.2:8080/';
+  url = 'http://localhost:8080/';
 
   constructor(private http: HttpClient) { }
   requestLoginIn(user:User){
